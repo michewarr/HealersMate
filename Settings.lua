@@ -7,25 +7,25 @@ local _, playerClass = UnitClass("player")
 function HealersMateSettings.UpdateTrackedDebuffTypes()
     local debuffTypeCureSpells = {
         ["PALADIN"] = {
-            ["Purify"] = {"Poison", "Disease"},
-            ["Cleanse"] = {"Poison", "Disease", "Magic"}
+            ["Purificar"] = {"Poison", "Disease"},
+            ["Purificar"] = {"Poison", "Disease", "Magic"}
         },
         ["PRIEST"] = {
-            ["Cure Disease"] = {"Disease"},
-            ["Abolish Disease"] = {"Disease"},
-            ["Dispel Magic"] = {"Magic"}
+            ["Curar Enfermedad"] = {"Disease"},
+            ["Abolir Enfermedad"] = {"Disease"},
+            ["Disipar Magia"] = {"Magic"}
         },
         ["DRUID"] = {
-            ["Cure Poison"] = {"Poison"},
-            ["Abolish Poison"] = {"Poison"},
-            ["Remove Curse"] = {"Curse"}
+            ["Curar Veneno"] = {"Poison"},
+            ["Abolir veneno"] = {"Poison"},
+            ["Eliminar Maldición"] = {"Curse"}
         },
         ["SHAMAN"] = {
-            ["Cure Poison"] = {"Poison"},
-            ["Cure Disease"] = {"Disease"}
+            ["Curar Veneno"] = {"Poison"}, -- TODO: confirmar
+            ["Curar Enfermedad"] = {"Disease"} -- TODO: confirmar
         },
         ["MAGE"] = {
-            ["Remove Lesser Curse"] = {"Curse"}
+            ["Eliminar Maldición Menor"] = {"Curse"}
         }
     }
 
@@ -202,44 +202,44 @@ TrackedDebuffs = nil -- Default tracked is variable based on class
 TrackedDebuffTypes = {} -- Default tracked is variable based on class
 
 -- Buffs/debuffs that significantly modify healing
-TrackedHealingBuffs = {"Amplify Magic", "Dampen Magic"}
-TrackedHealingDebuffs = {"Mortal Strike", "Wound Poison", "Curse of the Deadwood", "Veil of Shadow", "Gehennas' Curse", 
-    "Necrotic Poison", "Blood Fury", "Necrotic Aura", 
+TrackedHealingBuffs = {"Amplificar Magia", "Anular Magia"}
+TrackedHealingDebuffs = {"Golpe Mortal", "Veneno de Herida", "Curse of the Deadwood", "Veil of Shadow", "Maldición de Gehennas", -- TODO: no hemos confirmado que se llame así
+    "Necrotic Poison", "Furia Sanguínea", "Necrotic Aura",
     "Shadowbane Curse" -- Turtle WoW
 }
 
 do
     -- Tracked buffs for all classes
     local defaultTrackedBuffs = {
-        "Blessing of Protection", "Hand of Protection", "Divine Protection", "Divine Shield", "Divine Intervention", -- Paladin
-            "Bulwark of the Righteous", "Blessing of Sacrifice", "Hand of Sacrifice",
-        "Power Infusion", "Spirit of Redemption", "Inner Focus", "Abolish Disease", "Power Word: Shield", -- Priest
-        "Shield Wall", "Recklessness", "Last Stand", -- Warrior
-        "Evasion", "Vanish", -- Rogue
-        "Deterrence", "Feign Death", "Mend Pet", -- Hunter
-        "Frenzied Regeneration", "Innervate", "Abolish Poison", -- Druid
-        "Soulstone Resurrection", "Hellfire", -- Warlock
-        "Ice Block", "Evocation", "Ice Barrier", "Mana Shield", -- Mage
-        "Quel'dorei Meditation", "Grace of the Sunwell", -- Racial
-        "First Aid", "Food", "Drink" -- Generic
+        "Bendición de Protección", "Mano de Protección", "Protección Divina", "Escudo Divino", "Intervención Divina", -- Paladin
+            "Murallas del Justo", "Bendición de Sacrificio", "Mano de Sacrificio",
+        "Infusión de Poder", "Espíritu de la Redención", "Foco Interno", "Abolir Enfermedad", "Palabra de Poder: Escudo", -- Priest
+        "Muro de Escudo", "Temeridad", "Última Resistencia", -- Warrior
+        "Evasión", "Desaparecer", -- Rogue
+        "Deterrence", "Fingir Muerte", "Curar Mascota", -- Hunter
+        "Regeneración Frenética", "Inervar", "Abolir veneno", -- Druid
+        "Resurrección de Piedra de Alma", "Fuego Infernal", -- Warlock
+        "Bloque de Hielo", "Evocación", "Barrera de Hielo", "Escudo de Maná", -- Mage
+        "Meditación Quel'dorei", "Gracia del Sol", -- Racial
+        "Primeros Auxilios", "Comida", "Beber" -- Generic
     }
     -- Tracked buffs for specific classes
     local defaultClassTrackedBuffs = {
-        ["PALADIN"] = {"Blessing of Wisdom", "Blessing of Might", "Blessing of Salvation", "Blessing of Sanctuary", 
-            "Blessing of Kings", "Greater Blessing of Wisdom", "Greater Blessing of Might", 
-            "Greater Blssing of Salvation", "Greater Blessing of Sanctuary", "Greater Blessing of Kings", "Daybreak", 
-            "Blessing of Freedom", "Hand of Freedom", "Redoubt", "Holy Shield"},
-        ["PRIEST"] = {"Prayer of Fortitude", "Power Word: Fortitude", "Prayer of Spirit", "Divine Spirit", 
-            "Prayer of Shadow Protection", "Shadow Protection", "Holy Champion", "Champion's Grace", "Empower Champion", 
-            "Fear Ward", "Inner Fire", "Renew", "Lightwell Renew", "Inspiration", 
-            "Fade", "Spirit Tap"},
-        ["WARRIOR"] = {"Battle Shout"},
-        ["DRUID"] = {"Gift of the Wild", "Mark of the Wild", "Thorns", "Rejuvenation", "Regrowth"},
-        ["SHAMAN"] = {"Water Walking", "Healing Way", "Ancestral Fortitude"},
-        ["MAGE"] = {"Arcane Brilliance", "Arcane Intellect", "Frost Armor", "Ice Armor", "Mage Armor"},
-        ["WARLOCK"] = {"Demon Armor", "Demon Skin", "Unending Breath", "Shadow Ward", "Fire Shield"},
-        ["HUNTER"] = {"Rapid Fire", "Quick Shots", "Quick Strikes", "Aspect of the Pack", 
-            "Aspect of the Wild", "Bestial Wrath", "Feed Pet Effect"}
+        ["PALADIN"] = {"Bendición de Sabiduría", "Bendición de Poder", "Bendición de Salvación", "Bendición de Santuario",
+            "Bendición de los Reyes", "Bendición Mayor de Sabiduría", "Bendición Mayor de Poder",
+            "Bendición Mayor de Salvación", "Bendición Mayor de Santuario", "Bendición Mayor de Reyes", "Amanecer",
+            "Bendición de la Libertad", "Mano de la Libertad", "Redoble de Escudo", "Escudo Sagrado", "Bendición de Luz", "Bendición Mayor de Luz"},
+        ["PRIEST"] = {"Oración de Fortaleza", "Palabra de Poder: Fortaleza", "Oración de Espíritu", "Espíritu Divino",
+            "Oración de Protección contra Sombra", "Protección contra Sombra", "Proclamar Campeón", "Gracia del Campeón", "Empoderar Campeón",
+            "Vara de Miedo", "Fuego Interior", "Renovar", "Renovación del Pozo de Luz", "Inspiración",
+            "Desvanecimiento", "Drenaje Espiritual"},
+        ["WARRIOR"] = {"Grito de Batalla"},
+        ["DRUID"] = {"Regalo de lo Salvaje", "Marca de lo Salvaje", "Espinas", "Rejuvenecimiento", "Recrecimiento"},
+        ["SHAMAN"] = {"Caminar sobre el Agua", "Healing Way", "Ancestral Fortitude"},
+        ["MAGE"] = {"Brillo Arcano", "Intelecto Arcano", "Armadura de Hielo", "Armadura de Mago"}, -- TODO: confirmar si se llama Brillo Arcano
+        ["WARLOCK"] = {"Armadura Demoníaca", "Piel Demoníaca", "Aliento Infinito", "Guardia de Sombra", "Escudo de Fuego"},
+        ["HUNTER"] = {"Disparo Rápido", "Disparos Rápidos", "Golpes Rápidos", "Aspecto de la Manada",
+            "Aspecto de la Naturaleza", "Ira Bestial", "Efecto Alimentar Mascota"}
     }
     local trackedBuffs = defaultClassTrackedBuffs[playerClass] or {}
     util.AppendArrayElements(trackedBuffs, TrackedHealingBuffs)
@@ -248,15 +248,15 @@ do
 
     -- Tracked debuffs for all classes
     local defaultTrackedDebuffs = {
-        "Forbearance", -- Paladin
-        "Death Wish", -- Warrior
-        "Enrage", -- Druid
-        "Recently Bandaged", "Resurrection Sickness", "Ghost", -- Generic
+        "Tolerancia", -- Paladin
+        "Deseo de Muerte", -- Warrior
+        "Furia Berserker", -- Druid
+        "Recientemente Vendado", "Enfermedad de Resurrección", "Fantasma", -- Generic
         "Deafening Screech" -- Applied by mobs
     }
     -- Tracked debuffs for specific classes
     local defaultClassTrackedDebuffs = {
-        ["PRIEST"] = {"Weakened Soul"}
+        ["PRIEST"] = {"Alma Debilitada"}
     }
     local trackedDebuffs = defaultClassTrackedDebuffs[playerClass] or {}
     util.AppendArrayElements(trackedDebuffs, TrackedHealingDebuffs)
